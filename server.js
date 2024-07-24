@@ -10,10 +10,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "arturo1234",
-  database: "integradora2",
+  host: "srv1247.hstgr.io",
+  user: "u475816193_jose",
+  password: "p#?~&J3#",
+  database: "u475816193_droppingwater3",
 });
 
 db.connect((err) => {
@@ -27,7 +27,7 @@ db.connect((err) => {
 const entities = {
   Cliente: [
     "Nombre",
-    "Zona",
+    "Municipio",
     "Direccion",
     "Celular",
     "Correo",
@@ -43,6 +43,7 @@ const entities = {
     "Contraseña",
     "Estado",
     "Telefono",
+    "Recorrido"
   ],
   Administrativo: [
     "id",
@@ -56,9 +57,9 @@ const entities = {
     "Comentarios",
     "Estado",
   ],
-  Tinaco: ["id_cliente", "Litros", "Nivel"],
-  Mantenimiento: ["id_Tinaco", "Comentarios", "Realizado", "Fecha", "Hora"],
-  Mensajes: ["id_cliente", "id_administrativo", "Mensaje", "Fecha", "Hora"],
+  Tinaco: ["id_cliente", "Litros", "Nivel", "Fecha", "Hora"],
+  Mantenimientos: ["id_Tinaco", "Comentarios", "Realizado", "Fecha", "Hora"],
+  Mensajes: ["id_cliente", "Mensaje", "Fecha", "Hora"],
 };
 
 // CRUD endpoints for each entity
@@ -177,7 +178,7 @@ Object.keys(entities).forEach((entity) => {
 // Endpoint específico para obtener datos de un usuario administrativo por ID
 app.get("/user/:id", (req, res) => {
   const userId = req.params.id;
-  const query = "SELECT * FROM administrativo WHERE id = ?";
+  const query = "SELECT * FROM Administrativo WHERE id = ?";
 
   db.query(query, [userId], (err, result) => {
     if (err) {
@@ -193,7 +194,7 @@ app.get("/user/:id", (req, res) => {
 app.post("/Home", (req, res) => {
   const { nombre, claveUnica, contraseña } = req.body;
   const query =
-    "SELECT * FROM administrativo WHERE Nombre = ? AND ClaveUnica = ? AND Contraseña = ?";
+    "SELECT * FROM Administrativo WHERE Nombre = ? AND ClaveUnica = ? AND Contraseña = ?";
   db.query(query, [nombre, claveUnica, contraseña], (err, results) => {
     if (err) {
       console.error("Error querying the database:", err);
